@@ -1,0 +1,8 @@
+*.png
+*.rar
+*.pth
+*.amax
+*.ckpt
+.idea/*
+log_err/*
+*.xml
