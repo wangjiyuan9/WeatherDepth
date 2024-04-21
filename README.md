@@ -1,21 +1,155 @@
-# WeatherDepth
+<div align="center">
+<h2>WeatherDepth: Curriculum Contrastive Learning for Self-Supervised Depth Estimation under Adverse Weather Conditions</h2>
+<a href='https://scholar.google.com/citations?user=subRjlcAAAAJ&hl=zh-CN' target='_blank'>Jiyuan Wang</a><sup>1</sup>•<a href='https://scholar.google.com/citations?hl=zh-CN&user=t8xkhscAAAAJ' target='_blank'>Chunyu lin</a><sup>1</sup>•<a href='https://scholar.google.com/citations?hl=zh-CN&user=vo__egkAAAAJ' target='_blank'>Lang Nie</a><sup>1</sup>•<a href='XXX' target='_blank'>Shujun huang</a><sup>1</sup>
 
-This is the official PyTorch implementation for the ICRA 2024 paper
+<sup>1</sup>Beijingjiaotong University
 
-> WeatherDepth: Curriculum Contrastive Learning for Self-Supervised Depth Estimation under Adverse Weather Conditions
->
-> <div>
->     <a href='https://scholar.google.com/citations?user=subRjlcAAAAJ&hl=zh-CN' target='_blank'>Jiyuan Wang</a><sup>1</sup>&emsp;
->     <a href='https://scholar.google.com/citations?hl=zh-CN&user=t8xkhscAAAAJ' target='_blank'>Chunyu lin</a><sup>1</sup>&emsp;
->     <a href='https://scholar.google.com/citations?hl=zh-CN&user=vo__egkAAAAJ' target='_blank'>Lang Nie</a><sup>1</sup>&emsp;
->     <a href='XXX' target='_blank'>Shujun huang</a><sup>1</sup>&emsp;
-> </div>
-> <div>
->     <sup>1</sup>Beijingjiaotong University
-> </div>
->
-> [![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://arxiv.org/abs/2310.05556v2)
+**ICRA 2024**
+
+[![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://arxiv.org/abs/2310.05556v2) [![Website](./assets/badge-website.svg)](XXX)
+
 
 <div style="text-align:center">
-<img src="assets/pipline.png"  width="80%" height="80%">
-</div>
+<img src="assets/pipline.png"  width="100%" height="100%">
+</div>
+</div>
+
+## 📢 Upcoming releases
+
+- [x] release code for testing
+- [x] model release (WeatherDepth, WeatherDepth*, Weatherdepth$^\dagger$)
+- [ ] test data reledase(WeatherKITTI, CADC; DrivingStereo has already available)
+- [ ] release code for training
+- [ ] train/validate data release
+
+## 🛠️Environment Setup
+
+We implement our method on three baselines, and their environments are the same as their baselines. Therefore, you can refer to:
+
+- [**PlaneDepth**(CVPR2023)](https://github.com/svip-lab/PlaneDepth/tree/main)
+- [**MonoViT**(3DV2022)](https://github.com/zxcqlf/MonoViT)
+- [**WaveletMonoDepth**(CVPR2021)](https://github.com/nianticlabs/wavelet-monodepth)
+
+The inference code was tested on:
+
+- Ubuntu 18.04 LTS, Python 3.8.8, CUDA 11.3, GeForce RTX 3090 (pip, Conda)
+- Ubuntu 16.04 LTS, Python 3.7.15, CUDA 10.0, GeForce RTX 2080Ti (pip, Conda)
+
+You should arrange your file tree as:
+```bash
+├── Evaluate.py
+├── README.md
+├── ckpt
+│   ├── mpvit_small.pth
+│   ├── weatherdepthPld
+│   │   ├── depth.pth
+│   │   └── encoder.pth
+│   ├── weatherdepthVit
+│   │   ├── depth.pth
+│   │   └── encoder.pth
+│   └── weatherdepthWav
+│       ├── depth.pth
+│       └── encoder.pth
+...Other files
+```
+
+## 🖼️ Dataset Preparation
+`The WeatherKITTI dataset is huge (about 500GB), and we are still working on releasing it. `
+
+You can also use the CADC and DrivingStereo datasets to evaluate the model's robustness. You can download the datasets from the following links:
+- Snowy image at [CADC_devkit](https://github.com/mpitropov/cadc_devkit) and GT depth at [here]()
+- Rainy/Foggy image and their GT depth at [DrivingStereo](https://drivingstereo-dataset.github.io/)
+
+The data tree should be arranged as:
+```bash
+├──cadcd
+|   ├── 2018_03_06
+|   ├── 2018_03_07
+|   ├── 2019_02_27
+|   └── gt_depths.npy
+└──drivingstereo
+    ├── foggy
+    │   ├── depth-map-full-size
+    │   └── left-image-full-size
+    └── rainy
+        ├── depth-map-full-size
+        └── left-image-full-size
+```
+
+## 💾 Pretrained weights and evaluation
+
+| Models             | abs rel | sq rel | rmse  | rmse log | a1    | a2    | a3    |
+|--------------------|---------|--------|-------|----------|-------|-------|-------|
+| [WeatherDepth](https://drive.google.com/drive/folders/13evrsuXDnuw6UO7dH0YieYLpC5C2qIJf?usp=sharing)   | 0.099   | 0.673  | 4.324 | 0.185    | 0.884 | 0.959 | 0.981 |
+| [WeatherDepth*](https://drive.google.com/drive/folders/1lWwkeYGrZw6cHlUL9RAuENWN5tNDOAnZ?usp=sharing)  | 0.103   | 0.738  | 4.414 | 0.178    | 0.892 | 0.965 | 0.984 |
+| [WeatherDepth+ ](https://drive.google.com/drive/folders/1MC8YCbydUNcBFUQ083yNQJfE5niV43X0?usp=sharing) | 0.103|0.777|4.532|0.191|0.878|0.958|0.981|
+
+To evaluate the model on WeatherKITTI, you can run the following command:
+
+```bash
+#WeatherDepth*
+python Evaluate.py --data_path YOUR_PATH_HERE --eval_mono --net_type vit --width 640 --height 192 --load_weights_folder ./ckpt/weatherdepthVit --eval_split eigen_raw -twt -tww
+#WeatherDepth
+python Evaluate.py --data_path YOUR_PATH_HERE --eval_stereo --net_type plane --width 1280 --height 384 --load_weights_folder ./ckpt/weatherdepthPld --eval_split eigen_raw -twt -tww 
+#WeatherDepth+
+python Evaluate.py --data_path YOUR_PATH_HERE --eval_stereo --net_type wav --width 1024 --height 320 --load_weights_folder ./ckpt/weatherdepthWav --eval_split eigen_raw --cuda  -twt -tww
+```
+
+To evaluate the model on CADC, you can replace these parts
+
+```bash
+--eval_stereo -> --eval_mono ;--eval_split eigen_raw -> --eval_split cadc;(delete) -tww -> None
+```
+
+To evaluate the model on DrivingStereo, you can also replace these parts
+
+```bash
+--eval_stereo -> --eval_mono;--eval_split eigen_raw -> --eval_split stereo;(delete) -tww -> None
+```
+
+For example, to evaluate the model on DrivingStereo with WeatherDepth, you can run the following command:
+
+```bash
+python Evaluate.py --data_path YOUR_PATH_HERE --eval_mono --net_type plane --width 1280 --height 384 --load_weights_folder ./ckpt/weatherdepthPld --eval_split cadc -twt
+```
+
+If you correctly evaluate the model `(here show WeatherDepth* test WeatherKITTI)`, you will get the following results:
+
+```bash
+-> Loading weights from ./ckpt/vitmy
+-> Evaluating
+   Mono evaluation - using median scaling
+-> Computing predictions with size 640x192
+           eigen_raw&   abs_rel&    sq_rel&      rmse&  rmse_log&        a1&        a2&        a3\\
+100%|███████████████████████████████████████████| 88/88 [00:08<00:00, 10.42it/s]
+            rgb/data&     0.099&     0.698&     4.330&     0.174&     0.897&     0.967&     0.984\\
+100%|███████████████████████████████████████████| 88/88 [00:07<00:00, 11.22it/s]
+        raingan/data&     0.104&     0.761&     4.457&     0.178&     0.892&     0.964&     0.983\\
+100%|███████████████████████████████████████████| 88/88 [00:08<00:00, 10.96it/s]
+            fog/150m&     0.098&     0.665&     4.256&     0.172&     0.900&     0.968&     0.985\\
+100%|███████████████████████████████████████████| 88/88 [00:07<00:00, 11.00it/s]
+        snowgan/data&     0.104&     0.749&     4.460&     0.179&     0.890&     0.964&     0.984\\
+100%|███████████████████████████████████████████| 88/88 [00:09<00:00,  9.56it/s]
+       mix_rain/50mm&     0.107&     0.799&     4.542&     0.182&     0.887&     0.963&     0.983\\
+100%|███████████████████████████████████████████| 88/88 [00:07<00:00, 11.05it/s]
+       mix_snow/data&     0.111&     0.822&     4.600&     0.186&     0.880&     0.961&     0.982\\
+100%|███████████████████████████████████████████| 88/88 [00:07<00:00, 11.20it/s]
+             fog/75m&     0.098&     0.675&     4.253&     0.173&     0.901&     0.968&     0.985\\
+             average&     0.103&     0.738&     4.414&     0.178&     0.892&     0.965&     0.984\\
+```
+## ⏳ Training
+we will release the training code and data soon.
+## 🎓 Citation
+```bibtex
+@misc{wang2023weatherdepth,
+    title={WeatherDepth: Curriculum Contrastive Learning for Self-Supervised Depth Estimation under Adverse Weather Conditions},
+    author={Jiyuan Wang and Chunyu Lin and Lang Nie and Shujun Huang and Yao Zhao and Xing Pan and Rui Ai},
+    year={2023},
+    eprint={2310.05556},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
+}
+```
+
+## 📚 Acknowledgements and License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. The code is based on the PlaneDepth, MonoViT, and WaveletMonoDepth repositories. We thank the authors for their contributions. The data is based on the KITTI, CADC, and DrivingStereo datasets. We thank the authors for their contributions. If you have any questions, please feel free to contact us with issues or email.

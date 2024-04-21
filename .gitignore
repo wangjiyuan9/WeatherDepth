@@ -6,3 +6,4 @@
 .idea/*
 log_err/*
 *.xml
+ckpt/*
