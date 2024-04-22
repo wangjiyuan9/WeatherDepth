@@ -1,4 +1,3 @@
-*.png
 *.rar
 *.pth
 *.amax
@@ -7,3 +6,5 @@
 log_err/*
 *.xml
 ckpt/*
+__pycache__/*
+

@@ -18,7 +18,7 @@
 
 - [x] release code for testing
 - [x] model release (WeatherDepth, WeatherDepth*, Weatherdepth$^\dagger$)
-- [ ] test data reledase(WeatherKITTI, CADC; DrivingStereo has already available)
+- [x] test data reledase(WeatherKITTI, CADC; DrivingStereo has already available)
 - [ ] release code for training
 - [ ] train/validate data release
 
@@ -56,8 +56,39 @@ You should arrange your file tree as:
 ## 🖼️ Dataset Preparation
 `The WeatherKITTI dataset is huge (about 500GB), and we are still working on releasing it. `
 
-You can also use the CADC and DrivingStereo datasets to evaluate the model's robustness. You can download the datasets from the following links:
-- Snowy image at [CADC_devkit](https://github.com/mpitropov/cadc_devkit) and GT depth at [here]()
+You can download the WeatherKITTI test dataset from the following links (Excluding sunny scenes, that is the KITTI dataset, corresponding to the RGB part of the file tree):
+[**WeatherKITTI** Test](https://pan.baidu.com/s/1pew0QV3Tza-_JdalC8F0jQ?pwd=v4dt),
+The data tree should be arranged as:
+```bash
+kitti
+├── fog
+│    ├──2011_09_26_drive_0001_sync
+│    │    ├── image_02
+│    │    │   ├── 150m
+│    │    │   └── 75m
+│    │    └── image_03
+│    │        ├── 150m
+│    │        └── 75m
+│    ├──...
+├── mix_rain
+├── mix_snow
+├── raingan
+├── rgb
+     ├──2011_09_26_drive_0001_sync
+│    │    ├── image_02
+│    │    │   └── data
+│    │    ├── image_03
+│    │    │   └── data
+│    │    ├── oxts
+│    │    │   └── data
+│    │    └── velodyne_points
+│    │        └── data
+│    ├──...
+├── snowgan
+└── splits
+```
+You can use the CADC and DrivingStereo datasets to evaluate the model's robustness. You can download the datasets from the following links:
+- Snowy image at [CADC_devkit](https://github.com/mpitropov/cadc_devkit) and GT depth at [here](https://drive.google.com/file/d/18brjQkqo8tFEYCiG3OlveSGxJ3dn3zOf/view?usp=sharing)
 - Rainy/Foggy image and their GT depth at [DrivingStereo](https://drivingstereo-dataset.github.io/)
 
 The data tree should be arranged as:
