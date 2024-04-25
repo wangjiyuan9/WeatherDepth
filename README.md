@@ -19,7 +19,7 @@
 - [x] release code for testing
 - [x] model release (WeatherDepth, WeatherDepth*, Weatherdepth$^\dagger$)
 - [x] test data reledase(WeatherKITTI, CADC; DrivingStereo has already available)
-- [ ] release code for training
+- [ ] release code for training (part finished)
 - [ ] train/validate data release
 
 ## 🛠️Environment Setup
@@ -59,6 +59,7 @@ You should arrange your file tree as:
 You can download the WeatherKITTI test dataset from the following links (Excluding sunny scenes, that is the KITTI dataset, corresponding to the RGB part of the file tree):
 [**WeatherKITTI** Test](https://pan.baidu.com/s/1pew0QV3Tza-_JdalC8F0jQ?pwd=v4dt),
 The data tree should be arranged as:
+
 ```bash
 kitti
 ├── fog
@@ -106,6 +107,13 @@ The data tree should be arranged as:
         ├── depth-map-full-size
         └── left-image-full-size
 ```
+
+**Splits**
+
+The train/test/validation splits are defined in the `splits/` folder.
+For monocular training (MonoViT baseline), the code will train a depth model using [Zhou's subset](https://github.com/tinghuiz/SfMLearner) of the standard Eigen split of KITTI, which is designed for monocular training.
+
+For stereo-only training (PlaneDepth baseline), we can use the full Eigen training set – see paper for details.
 
 ## 💾 Pretrained weights and evaluation
 
@@ -169,7 +177,18 @@ If you correctly evaluate the model `(here show WeatherDepth* test WeatherKITTI)
              average&     0.103&     0.738&     4.414&     0.178&     0.892&     0.965&     0.984\\
 ```
 ## ⏳ Training
-we will release the training code and data soon.
+**Monocular training:**
+
+```shell
+python -u train.py --data_path YOUR_PATH_HERE --log_dir YOU_LOG_HERE --model_name WeatherDepthViT --train_strategy cur --num_epochs 30 --weather all --cur_vis 0 --contrast_with 0 0 1 --gan --cta_wadd 0.02 --ss --maxp 0 --net_type vit --do_save
+```
+
+**Stereo training:**
+
+```shell
+nohup python -u train.py --model_name WeatherDepthPld --data_path YOUR_PATH_HERE --log_dir YOU_LOG_HERE --train_strategy cur --cur_vis 0 --num_epochs 60 --weather all --gan --contrast_with 0 0 1 --cta_wadd 0.01 --ss --maxp 1 --batch_size 6 --do_save
+```
+
 ## 🎓 Citation
 ```bibtex
 @misc{wang2023weatherdepth,
