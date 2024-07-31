@@ -43,24 +43,16 @@ class MonodepthOptions:
             default="mix")
         self.parser.add_argument("--curr_version", "--cur_vis",
             type=int,
-            help="curriculum visualization, 0:org_cur,1:mix_cur,2:self_step,3:ss+contrast",
+            help="curriculum visualization, 0:org_cur,1:mix_cur,2:self_step,3:ss+contrast,4:used in vit,5:used in planedepth,0-3 used in ablation study",
             default=None)
         self.parser.add_argument("--org_pjct",
-            help="if set 1,Predict the dep-org_pjct in the rain, and use the original image for photometric re-projection estimation",
+            help="if set 1,use the clear image for photometric re-projection estimation",
             action="store_true", default=True)
-        self.parser.add_argument("--load_mode",
-            type=str,
-            help="the folder you want to load:image_02，or if turn on the multi,this the father folder",
-            default="image_02")
         self.parser.add_argument("--mix_rate",
             nargs="+",
-            help='if --use curriclumn learing，need to set this value to control the curr learning or mix train mode,len(rate)=rain folder num-1',
+            help="if --use the pre-define curriculum learning, use this value to control the curriculum learning: e.g. set to [0,0.5], and total epoch=20 we train the 1st level 10 epoch, 2nd level last 10 epoch.",
             type=float,
             default=[0, 0.5])
-        self.parser.add_argument("--vis_mode",
-            action="store_true",
-            help="if set,vis the result"
-        )
         self.parser.add_argument("--weather",
             type=str,
             help="the weather you want to train",
@@ -72,21 +64,17 @@ class MonodepthOptions:
             default=0)
         self.parser.add_argument("--cta_wadd",
             type=float,
-            help="control the cta_wadd",
+            help="contrast_weight_add;in paper, named w_cst, the original contrastive loss weight",
             default=1e-2)
         self.parser.add_argument("--only_contrast", "--only",
             type=int,
             default=-1,
-        )
+            help="training will only do the contrastive learning in 'only_contrast' level")
         self.parser.add_argument("--cta_wpat",
             type=int,
-            help="control when to use cta",
-            default=0
-        )
-        self.parser.add_argument("--cta_scl",
-            help="if set,use iccv mode contrast",
-            action="store_true",
-        )
+            default=0,
+            help="contrast_patient;only use in ablative study. If set to 1, at each level ,model will begin the contrastive learning after 1 epoch ")
+
         self.parser.add_argument("--start_level",
             type=int,
             help="set start level or mix part: when use curriculum, means the start level,as the mix,means the mix part(1==all,2==max)",
@@ -100,7 +88,7 @@ class MonodepthOptions:
         self.parser.add_argument("--contrast_with",
             nargs="+",
             type=int,
-            help="contrast target level",
+            help="contrast target level, for example,[0,0,1] means the 0th level contrast with 0th level, 1st level contrast with 0th level, 2nd level contrast with 1th level",
             default=[1, 2, None]
         )
         self.parser.add_argument("--scales",
@@ -123,7 +111,7 @@ class MonodepthOptions:
         )
         self.parser.add_argument("--test_with_torch", '-twt',
             action="store_true",
-            help="if set,use torch to test"
+            help="if set,use gpu to test"
         )
         self.parser.add_argument("--test_with_weather", '-tww',
             action="store_true",
@@ -136,8 +124,7 @@ class MonodepthOptions:
         self.parser.add_argument("--local_rank", type=int, default=0)
         self.parser.add_argument("--cuda_devices", "--cuda", type=int, default=0)
         self.parser.add_argument("--change_freq", "--cf", type=int, default=2, help="change the w_curr every cf epoch")
-        self.parser.add_argument("--max_wurr", "--mw", type=float, default=10, help="max beishu of w_curr")
-        self.parser.add_argument("--fix", action="store_true", help="if set,fix the cst model")
+        self.parser.add_argument("--max_wurr", "--mw", type=float, default=10, help="max time of w_curr")
         # TRAINING options
         self.parser.add_argument("--model_name",
             type=str,
@@ -165,6 +152,7 @@ class MonodepthOptions:
             type=int,
             help="input image width",
             default=640)
+        # the following options are used in the original planedepth, please refer to the original paper for more details
         self.parser.add_argument("--alpha_smooth",
             type=float,
             help="disparity smoothness weight",

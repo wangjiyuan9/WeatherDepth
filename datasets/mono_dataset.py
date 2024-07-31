@@ -26,7 +26,6 @@ class MonoDataset(data.Dataset):
 
     def __init__(self, opts, filenames, is_train=False, img_ext='.png'):
         super(MonoDataset, self).__init__()
-        self.vis_mode = opts.vis_mode
         self.split = opts.eval_split
         self.data_path = opts.data_path
         self.filenames = filenames

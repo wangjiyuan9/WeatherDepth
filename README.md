@@ -177,18 +177,19 @@ If you correctly evaluate the model `(here show WeatherDepth* test WeatherKITTI)
              average&     0.103&     0.738&     4.414&     0.178&     0.892&     0.965&     0.984\\
 ```
 ## ⏳ Training
-**Monocular training:**
+**Monocular training:(MonoViT)**
 
 ```shell
-python -u train.py --data_path YOUR_PATH_HERE --log_dir YOU_LOG_HERE --model_name WeatherDepthViT --train_strategy cur --num_epochs 30 --weather all --cur_vis 0 --contrast_with 0 0 1 --gan --cta_wadd 0.02 --ss --maxp 0 --net_type vit --do_save
+python -u train.py --data_path YOUR_PATH_HERE --log_dir YOU_LOG_HERE --model_name WeatherDepthViT --train_strategy cur --num_epochs 30 --weather all --cur_vis 4 --contrast_with 0 0 1 --gan --cta_wadd 0.02 --ss --maxp 0 --net_type vit --do_save
 ```
 
-**Stereo training:**
+**Stereo training:(Planedepth)**
 
 ```shell
-nohup python -u train.py --model_name WeatherDepthPld --data_path YOUR_PATH_HERE --log_dir YOU_LOG_HERE --train_strategy cur --cur_vis 0 --num_epochs 60 --weather all --gan --contrast_with 0 0 1 --cta_wadd 0.01 --ss --maxp 1 --batch_size 6 --do_save
+python -u train.py --model_name WeatherDepthPld --data_path YOUR_PATH_HERE --log_dir YOU_LOG_HERE --train_strategy cur --cur_vis 5 --num_epochs 60 --weather all --gan --contrast_with 0 0 1 --cta_wadd 0.01 --ss --maxp 1 --do_save --net_type plane
 ```
 
+To facilitate the reproduction of our model, we provide the training logs for the above commands at [here](./assets). **These logs are the training records of the models presented in the paper.** (For Planedepth, we used multi-GPU parallel training.)
 ## 🎓 Citation
 ```bibtex
 @misc{wang2023weatherdepth,
