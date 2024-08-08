@@ -6,7 +6,8 @@
 
 **ICRA 2024**
 
-[![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://arxiv.org/abs/2310.05556v2) [![Website](./assets/badge-website.svg)](XXX)
+[![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://arxiv.org/abs/2310.05556v2) [![Static Badge](https://img.shields.io/badge/Youtube-Video-blue)](https://www.youtube.com/watch?v=N32ZrEMvlmA&ab_channel=%E7%8E%8B%E7%BA%AA%E5%85%83) [![Static Badge](https://img.shields.io/badge/BiliBili-Video-green)](https://www.bilibili.com/video/BV1g2vaesExb/?spm_id_from=333.999.0.0&vd_source=26e502acdab568d5b3145439da039be8)  [![Static Badge](https://img.shields.io/badge/Website-Dataset-orange)](https://wangjiyuan9.github.io/project/weatherkitti/)
+
 
 
 <div style="text-align:center">
@@ -14,13 +15,14 @@
 </div>
 </div>
 
-## 📢 Upcoming releases
+## 📢 Upcoming releases & Catalog
 
-- [x] release code for testing
-- [x] model release (WeatherDepth, WeatherDepth*, Weatherdepth$^\dagger$)
-- [x] test data reledase(WeatherKITTI, CADC; DrivingStereo has already available)
-- [ ] release code for training (part finished)
-- [ ] train/validate data release
+- [x] [release code for testing](#-pretrained-weights-and-evaluation)
+- [x] [model release](#-pretrained-weights-and-evaluation) (WeatherDepth, WeatherDepth*, Weatherdepth$^\dagger$)
+- [x] [test data release](#-dataset-preparation)(WeatherKITTI, CADC; DrivingStereo has already available)
+- [x] [release code for training](#-training)
+- [x] realease the [introduction video]() for the paper
+- [x] [train/validate data release]()
 
 ## 🛠️Environment Setup
 
@@ -54,10 +56,9 @@ You should arrange your file tree as:
 ```
 
 ## 🖼️ Dataset Preparation
-`The WeatherKITTI dataset is huge (about 500GB), and we are still working on releasing it. `
 
-You can download the WeatherKITTI test dataset from the following links (Excluding sunny scenes, that is the KITTI dataset, corresponding to the RGB part of the file tree):
-[**WeatherKITTI** Test](https://pan.baidu.com/s/1pew0QV3Tza-_JdalC8F0jQ?pwd=v4dt),
+You can download the WeatherKITTI test/full dataset from the following links (Excluding sunny scenes, that is the KITTI dataset, corresponding to the RGB part of the file tree):
+[**WeatherKITTI** ](https://wangjiyuan9.github.io/project/weatherkitti/),
 The data tree should be arranged as:
 
 ```bash
