@@ -23,6 +23,7 @@
 - [x] [release code for training](#-training)
 - [x] realease the [introduction video]() for the paper
 - [x] [train/validate data release]()
+- [x] **!NEW!** [CycleGAN weight release](https://wangjiyuan9.github.io/project/weatherkitti/) CLICK LEFT!
 
 ## 🛠️Environment Setup
 
