@@ -59,7 +59,7 @@ You should arrange your file tree as:
 ## 🖼️ Dataset Preparation
 
 You can download the WeatherKITTI test/full dataset from the following links (Excluding sunny scenes, that is the KITTI dataset, corresponding to the RGB part of the file tree):
-[**WeatherKITTI** ](https://wangjiyuan9.github.io/project/weatherkitti/),
+[**WeatherKITTI** ](https://wangjiyuan9.github.io/project/weatherkitti/) or [from Hugging Face](https://huggingface.co/datasets/exander/Weather-KITTI/tree/main),
 The data tree should be arranged as:
 
 ```bash
@@ -206,3 +206,4 @@ To facilitate the reproduction of our model, we provide the training logs for th
 
 ## 📚 Acknowledgements and License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. The code is based on the PlaneDepth, MonoViT, and WaveletMonoDepth repositories. We thank the authors for their contributions. The data is based on the KITTI, CADC, and DrivingStereo datasets. We thank the authors for their contributions. If you have any questions, please feel free to contact us with issues or email.
+
